@@ -20,7 +20,7 @@ using .ECRealTimeDatas
 basetime = latest().basetime
 steps = 0:24:72
 
-@. steps |> ( x->get_filename(basetime; x) ) |> println
+@. steps |> ( step->get_filename(basetime; step) ) |> println
 ```
 
 ## Download Files
