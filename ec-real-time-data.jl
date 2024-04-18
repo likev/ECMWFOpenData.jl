@@ -69,14 +69,22 @@ function download_steps(basetime = latest().basetime; steps = 0:24:72, path="")
     result = Dict{Int, String}()
 
     mkpath(path)
+
+    steplength = length(steps)
+    i = 1
     for step in steps
         url = get_url(basetime; step)
         filename = get_filename(basetime; step)
+
+        println("($i of $steplength) downloading $filename ...")
         
         fullname = "$path$filename"
         Downloads.download(url, fullname)
 
+        println("    $filename downloaded.")
+
         result[step] = fullname
+        i += 1
     end
 
     result
