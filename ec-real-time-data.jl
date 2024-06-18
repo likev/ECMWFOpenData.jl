@@ -65,7 +65,7 @@ function get_status_code(url)
 
 end
 
-function download_steps(basetime = latest().basetime; steps = 0:24:72, path="")
+function download_steps(basetime = latest().basetime; steps = 0:24:72, path="", overwrite=false)
     result = Dict{Int, String}()
 
     mkpath(path)
@@ -79,9 +79,13 @@ function download_steps(basetime = latest().basetime; steps = 0:24:72, path="")
         println("($i of $steplength) downloading $filename ...")
         
         fullname = "$path$filename"
-        Downloads.download(url, fullname)
 
-        println("    $filename downloaded.")
+        if !overwrite && isfile(fullname)
+            println("    $filename already exist.")
+        else
+            Downloads.download(url, fullname)
+            println("    $filename downloaded.")
+        end
 
         result[step] = fullname
         i += 1
